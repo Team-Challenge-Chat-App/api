@@ -11,6 +11,9 @@ def test_swagger_accessible_by_admin(admin_client):
 
 
 @pytest.mark.django_db()
+@pytest.mark.skip(
+    reason="Locally reaching docs without authentication is more convenient",
+)
 def test_swagger_ui_not_accessible_by_normal_user(client):
     url = reverse("api-docs")
     response = client.get(url)

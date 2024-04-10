@@ -42,6 +42,16 @@ repos:
       - id: djlint-reformat-django
       - id: djlint-django
 
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.21.3
+    hooks:
+      - id: commitizen
+        entry: cz
+        args: [ 'check', '--commit-msg-file', '.git/COMMIT_EDITMSG' ]
+        pass_filenames: false
+        stages: [ commit-msg ]
+
+
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
   autoupdate_schedule: weekly
