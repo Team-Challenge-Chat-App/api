@@ -7,7 +7,7 @@ insane stuff
 
 requirement deps are listed in pyproject.toml for poetry use now
 
-In order to run locally: create .env file in BASE_DIR 
+In order to run locally: create .env file in BASE_DIR
 ## Settings
 
 Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).

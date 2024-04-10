@@ -325,6 +325,7 @@ tags
 # Redis dump file
 dump.rdb
 
+.idea/
 ### Project template
 tc_chat/media/
 

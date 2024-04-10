@@ -53,7 +53,7 @@ DATABASES = {
         "PASSWORD": env.str("POSTGRES_PASSWORD"),
         "HOST": env.str("POSTGRES_HOST"),
         "PORT": env.str("POSTGRES_PORT"),
-    }
+    },
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
@@ -348,7 +348,7 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Team Challenge Chat API",
     "DESCRIPTION": "Documentation of API endpoints of Team Challenge Chat",
     "VERSION": "1.0.0",
-    #Altered to anyone
+    # Altered to anyone
     "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
 }
 # Your stuff...
