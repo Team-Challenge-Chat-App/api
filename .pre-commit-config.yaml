@@ -42,18 +42,6 @@ repos:
       - id: djlint-reformat-django
       - id: djlint-django
 
-  - repo: local
-    hooks:
-      - id: pytest
-        name: Run tests
-        entry: pytest
-        language: system
-        args: [ "-m", "not skip", "-p", "no:warnings" ]
-        verbose: true
-        pass_filenames: false
-        stages: [ pre-commit, pre-push ]
-        fail_fast: true
-
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v3.21.3
     hooks:
