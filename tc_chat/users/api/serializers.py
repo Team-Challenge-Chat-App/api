@@ -3,11 +3,7 @@ from rest_framework import serializers
 from tc_chat.users.models import User
 
 
-class UserSerializer(serializers.ModelSerializer[User]):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["name", "url"]
-
-        extra_kwargs = {
-            "url": {"view_name": "api:user-detail", "lookup_field": "pk"},
-        }
+        fields = ["id", "name"]

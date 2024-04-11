@@ -1,7 +1,10 @@
 # ruff: noqa: E501
+from datetime import timedelta
+
 from .base import *  # noqa: F403
 from .base import DATABASES
 from .base import INSTALLED_APPS
+from .base import SIMPLE_JWT
 from .base import SPECTACULAR_SETTINGS
 from .base import env
 
@@ -182,4 +185,8 @@ SPECTACULAR_SETTINGS["SERVERS"] = [
     {"url": "https://chat.com", "description": "Production server"},
 ]
 # Your stuff...
-# ------------------------------------------------------------------------------
+
+# SimpleJWT
+SIMPLE_JWT["SIGNING_KEY"] = SECRET_KEY
+SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"] = timedelta(days=1)
+SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"] = timedelta(days=7)
