@@ -1,4 +1,5 @@
 -r production.txt
+rest_framework_simplejwt
 Werkzeug[watchdog]==3.0.2
 ipdb==0.13.13
 psycopg[c]==3.1.18

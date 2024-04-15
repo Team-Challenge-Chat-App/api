@@ -3,5 +3,7 @@
 set -o errexit
 set -o pipefail
 set -o nounset
+#
+#exec make livehtml
 
-exec make livehtml
+# Doesn't work
