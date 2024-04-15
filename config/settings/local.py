@@ -1,7 +1,10 @@
 # ruff: noqa: E501
+from datetime import timedelta
+
 from .base import *  # noqa: F403
 from .base import INSTALLED_APPS
 from .base import MIDDLEWARE
+from .base import SIMPLE_JWT
 from .base import env
 
 # GENERAL
@@ -63,10 +66,9 @@ if env("USE_DOCKER") == "yes":
 # ------------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]
-# Celery
-# ------------------------------------------------------------------------------
-
-# https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-eager-propagates
-CELERY_TASK_EAGER_PROPAGATES = True
 # Your stuff...
-# ------------------------------------------------------------------------------
+
+# SimpleJWT
+SIMPLE_JWT["SIGNING_KEY"] = SECRET_KEY
+SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"] = timedelta(days=7)
+SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"] = timedelta(days=30)

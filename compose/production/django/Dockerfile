@@ -1,6 +1,10 @@
-
+#{%- if cookiecutter.cloud_provider == 'AWS' %}
+ARG DJANGO_AWS_STORAGE_BUCKET_NAME
+ENV DJANGO_AWS_STORAGE_BUCKET_NAME=${DJANGO_AWS_STORAGE_BUCKET_NAME}
+ARG DJANGO_AWS_S3_CUSTOM_DOMAIN
+ENV DJANGO_AWS_S3_CUSTOM_DOMAIN=${DJANGO_AWS_S3_CUSTOM_DOMAIN}
 # define an alias for the specific python version used in this file.
-FROM docker.io/python:3.12.3-slim-bookworm as python
+FROM python:3.11.4-slim-bullseye as python
 
 # Python build stage
 FROM python as python-build-stage
@@ -11,16 +15,19 @@ ARG BUILD_ENVIRONMENT=production
 RUN apt-get update && apt-get install --no-install-recommends -y \
   # dependencies for building Python packages
   build-essential \
-  # psycopg dependencies
-  libpq-dev
+  # psycopg2 dependencies`
+  libpq-dev \
+  # Install Poetry
+  curl \
+  && curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry bash \
+  && ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 
-# Requirements are installed here to ensure they will be cached.
-COPY ./requirements .
+# Copy pyproject.toml and poetry.lock files
+COPY pyproject.toml poetry.lock ./
 
-# Create Python Dependency and Sub-Dependency Wheels.
-RUN pip wheel --wheel-dir /usr/src/app/wheels  \
-  -r ${BUILD_ENVIRONMENT}.txt
-
+# Set the virtualenv creation to false and install dependencies using Poetry
+RUN poetry config virtualenvs.create false \
+  && poetry install --no-root --no-dev
 
 # Python 'run' stage
 FROM python as python-run-stage
@@ -37,10 +44,9 @@ WORKDIR ${APP_HOME}
 RUN addgroup --system django \
     && adduser --system --ingroup django django
 
-
 # Install required system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
-  # psycopg dependencies
+  # psycopg2 dependencies
   libpq-dev \
   # Translations dependencies
   gettext \
@@ -48,13 +54,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-# All absolute dir copies ignore workdir instruction. All relative dir copies are wrt to the workdir instruction
-# copy python dependency wheels from python-build-stage
-COPY --from=python-build-stage /usr/src/app/wheels  /wheels/
-
-# use wheels to install python dependencies
-RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
-  && rm -rf /wheels/
+# Copy the installed dependencies from the build stage
+COPY --from=python-build-stage /opt/poetry /opt/poetry
+RUN ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 
 
 COPY --chown=django:django ./compose/production/django/entrypoint /entrypoint
@@ -65,32 +67,11 @@ RUN chmod +x /entrypoint
 COPY --chown=django:django ./compose/production/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
-COPY --chown=django:django ./compose/production/django/celery/worker/start /start-celeryworker
-RUN sed -i 's/\r$//g' /start-celeryworker
-RUN chmod +x /start-celeryworker
 
-
-COPY --chown=django:django ./compose/production/django/celery/beat/start /start-celerybeat
-RUN sed -i 's/\r$//g' /start-celerybeat
-RUN chmod +x /start-celerybeat
-
-
-COPY --chown=django:django ./compose/production/django/celery/flower/start /start-flower
-RUN sed -i 's/\r$//g' /start-flower
-RUN chmod +x /start-flower
-
-
-# copy application code to WORKDIR
-COPY --chown=django:django . ${APP_HOME}
 
 # make django owner of the WORKDIR directory as well.
-RUN chown -R django:django ${APP_HOME}
+RUN chown django:django ${APP_HOME}
 
 USER django
-
-RUN DATABASE_URL="" \
-  CELERY_BROKER_URL="" \
-  DJANGO_SETTINGS_MODULE="config.settings.test" \
-  python manage.py compilemessages
 
 ENTRYPOINT ["/entrypoint"]
