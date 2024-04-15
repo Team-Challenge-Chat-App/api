@@ -49,9 +49,9 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 
 
 def get_databases():
-    DOCS_SQLITE_DB_SWITCH = env.bool("DOCS_SQLITE_DB_SWITCH", False)
-    if not DOCS_SQLITE_DB_SWITCH:
-        DATABASES = {
+    docs_sqlite_db_switch = env.bool("DOCS_SQLITE_DB_SWITCH", False)
+    if not docs_sqlite_db_switch:
+        databases = {
             "default": {
                 "ENGINE": "django.db.backends.postgresql",
                 "NAME": env.str("POSTGRES_DB"),
@@ -61,14 +61,14 @@ def get_databases():
                 "PORT": env.str("POSTGRES_PORT"),
             },
         }
-    elif DOCS_SQLITE_DB_SWITCH:
-        DATABASES = {
+    elif docs_sqlite_db_switch:
+        databases = {
             "default": {
                 "ENGINE": "django.db.backends.sqlite3",
                 "NAME": "docs_db",
             }
-    }
-    return DATABASES
+        }
+    return databases
 
 
 DATABASES = get_databases()
