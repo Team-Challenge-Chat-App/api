@@ -20,7 +20,7 @@ SECRET_KEY = env(
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]  # noqa: S104
 
 # ! Should be used in production, but we dont have a proper prod yet
-ALLOWED_HOSTS += env.str("HOST_IP", default="")
+ALLOWED_HOSTS.append(env.str("HOST_IP", default=""))
 
 # CACHES
 # ------------------------------------------------------------------------------
