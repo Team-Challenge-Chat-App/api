@@ -46,16 +46,33 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env.str("POSTGRES_DB"),
-        "USER": env.str("POSTGRES_USER"),
-        "PASSWORD": env.str("POSTGRES_PASSWORD"),
-        "HOST": env.str("POSTGRES_HOST"),
-        "PORT": env.str("POSTGRES_PORT"),
-    },
-}
+
+
+def get_databases():
+    DOCS_SQLITE_DB_SWITCH = env.bool("DOCS_SQLITE_DB_SWITCH", False)
+    if not DOCS_SQLITE_DB_SWITCH:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": env.str("POSTGRES_DB"),
+                "USER": env.str("POSTGRES_USER"),
+                "PASSWORD": env.str("POSTGRES_PASSWORD"),
+                "HOST": env.str("POSTGRES_HOST"),
+                "PORT": env.str("POSTGRES_PORT"),
+            },
+        }
+    elif DOCS_SQLITE_DB_SWITCH:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": "docs_db",
+            }
+    }
+    return DATABASES
+
+
+DATABASES = get_databases()
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

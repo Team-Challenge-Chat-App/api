@@ -9,6 +9,9 @@ services:
       dockerfile: ./compose/local/docs/Dockerfile
     env_file:
       - ./.envs/.local/.django
+    environment:
+      DJANGO_READ_DOT_ENV_FILE: "False"
+      DOCS_SQLITE_DB_SWITCH: "True"
     volumes:
       - ./docs:/docs:z
       - ./config:/app/config:z
