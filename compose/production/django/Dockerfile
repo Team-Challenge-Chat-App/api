@@ -4,7 +4,7 @@ ENV DJANGO_AWS_STORAGE_BUCKET_NAME=${DJANGO_AWS_STORAGE_BUCKET_NAME}
 ARG DJANGO_AWS_S3_CUSTOM_DOMAIN
 ENV DJANGO_AWS_S3_CUSTOM_DOMAIN=${DJANGO_AWS_S3_CUSTOM_DOMAIN}
 # define an alias for the specific python version used in this file.
-FROM python:3.11.4-slim-bullseye as python
+FROM python:3.11.9-slim-bullseye as python
 
 # Python build stage
 FROM python as python-build-stage
