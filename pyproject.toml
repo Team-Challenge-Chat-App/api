@@ -25,7 +25,7 @@ django-redis = "^5.4.0"
 djangorestframework = "^3.15.1"
 django-cors-headers = "^4.3.1"
 drf-spectacular = "^0.27.2"
-gunicorn = "^21.2.0"
+gunicorn = "^22.0.0"
 django-storages = {extras = ["s3"], version = "^1.14.2"}
 django-anymail = "^10.3"
 werkzeug = {extras = ["watchdog"], version = "^3.0.2"}
