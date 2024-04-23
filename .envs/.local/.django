@@ -6,4 +6,9 @@ IPYTHONDIR=/app/.ipython
 HOST_IP=13.49.233.191
 # Redis
 # ------------------------------------------------------------------------------
-REDIS_URL=redis://redis:6379/0
+REDIS_URL=redis://localhost:6379/0
+
+# Channels
+
+CHANNELS_REDIS_HOST=localhost
+CHANNELS_REDIS_PORT=6379

@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 APPS_DIR = BASE_DIR / "tc_chat"
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
@@ -82,12 +82,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "daphne",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -194,7 +196,6 @@ TEMPLATES = [
         "OPTIONS": {
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
-                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.i18n",
@@ -207,8 +208,6 @@ TEMPLATES = [
     },
 ]
 
-# https://docs.djangoproject.com/en/dev/ref/settings/#form-renderer
-FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
 # FIXTURES
 # ------------------------------------------------------------------------------
@@ -315,7 +314,7 @@ SIMPLE_JWT = {
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
-CORS_URLS_REGEX = r"^/api/.*$"
+CORS_URLS_REGEX = r"^(/api/|/ws/).*$"
 
 # By Default swagger ui is available only to admin user(s). You can change permission classes to change that
 # See more configuration options at https://drf-spectacular.readthedocs.io/en/latest/settings.html#settings
@@ -328,3 +327,13 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                f"redis://{env.str('CHANNELS_REDIS_HOST')}:{env.str('CHANNELS_REDIS_PORT')}/11"
+            ],
+        },
+    },
+}

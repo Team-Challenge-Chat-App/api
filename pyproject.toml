@@ -49,6 +49,8 @@ psycopg2 = "^2.9.9"
 daphne = "^4.1.1"
 djangorestframework-simplejwt = "^5.3.1"
 tzdata = "^2024.1"
+prompt-toolkit = "^3.0.43"
+channels-redis = "^4.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.0"
