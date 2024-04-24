@@ -5,5 +5,7 @@ set -o pipefail
 set -o nounset
 
 
+python manage.py makemigrations
 python manage.py migrate
+python manage.py mock_data
 exec python -m uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'
