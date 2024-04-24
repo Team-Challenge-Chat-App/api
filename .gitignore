@@ -424,3 +424,7 @@ tc_chat/media/
 .env
 .envs/*
 !.envs/.local/
+
+# Ignore all migrations in tc_chat, кроме __init__.py
+tc_chat/*/migrations/
+!tc_chat/*/migrations/__init__.py
