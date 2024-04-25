@@ -18,7 +18,7 @@ uvicorn = {extras = ["standard"], version = "^0.29.0"}
 django = "^5.0.4"
 django-environ = "^0.11.2"
 django-model-utils = "^4.5.0"
-django-allauth = {extras = ["mfa"], version = "^0.61.1"}
+django-allauth = {extras = ["mfa"], version = "^0.62.1"}
 django-crispy-forms = "^2.1"
 crispy-bootstrap5 = "^2024.2"
 django-redis = "^5.4.0"
