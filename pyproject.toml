@@ -31,7 +31,7 @@ django-anymail = "^10.3"
 werkzeug = {extras = ["watchdog"], version = "^3.0.2"}
 ipdb = "^0.13.13"
 watchfiles = "^0.21.0"
-mypy = "^1.9.0"
+mypy = "^1.10.0"
 django-stubs = "^4.2.7"
 djangorestframework-stubs = "^3.14.5"
 sphinx = "^7.2.6"
