@@ -424,3 +424,4 @@ tc_chat/media/
 .env
 .envs/*
 !.envs/.local/
+.envs/.local/.aws
