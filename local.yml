@@ -16,6 +16,9 @@ services:
       - redis
     volumes:
       - .:/app:z
+    environment:
+      DJANGO_READ_DOT_ENV_FILE: false
+      DJANGO_SETTINGS_MODULE: config.settings.local
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
