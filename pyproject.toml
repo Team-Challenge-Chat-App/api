@@ -32,7 +32,7 @@ werkzeug = {extras = ["watchdog"], version = "^3.0.2"}
 ipdb = "^0.13.13"
 watchfiles = "^0.21.0"
 mypy = "^1.9.0"
-django-stubs = "^4.2.7"
+django-stubs = "^5.0.0"
 djangorestframework-stubs = "^3.14.5"
 sphinx = "^7.2.6"
 sphinx-autobuild = "^2024.2.4"
