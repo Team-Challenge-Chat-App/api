@@ -22,12 +22,6 @@ class ChatGroup(Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        # Check if creator is provided and not already in members
-        if self.creator and self.creator not in self.members.all():
-            raise GroupExcludesCreatorInMembersError
-        super().save(*args, **kwargs)
-
     def delete(self, *args, **kwargs):
         """Prevent deletion of developer-created groups."""
         if self.is_dev_created:

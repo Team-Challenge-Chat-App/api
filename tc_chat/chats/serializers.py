@@ -18,7 +18,8 @@ class ChatGroupSerializer(serializers.ModelSerializer):
         # Create the chat group instance
         with transaction.atomic():
             # Create the chat group instance
-            chat_group = ChatGroup.objects.create(**validated_data)
+            chat_group = ChatGroup(**validated_data)
+            chat_group.save()
             # Add members to the chat group
             chat_group.members.set(members)
         return chat_group
