@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from tc_chat.users.models import Group
+from tc_chat.chats.models import Group
 from tc_chat.users.models import User
 
 
