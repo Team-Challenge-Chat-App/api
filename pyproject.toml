@@ -214,6 +214,10 @@ ignore = [
     "SIM102", # sometimes it's better to nest
     "COM812",
     "ISC001",
+    "RUF013",
+    "TRY003",
+    "EM101",
+    "RUF005",
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

@@ -107,6 +107,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "tc_chat.users",
+    "tc_chat.chats",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -148,8 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {"NAME": "tc_chat.contrib.auth.password_validation.MaximumLengthValidator"},
 ]
 
 # MIDDLEWARE
