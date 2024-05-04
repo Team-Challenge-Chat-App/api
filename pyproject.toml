@@ -217,6 +217,7 @@ ignore = [
     "RUF013",
     "TRY003",
     "EM101",
+    "RUF005",
 ]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

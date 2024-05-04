@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from tc_chat.chats.models import Group
+from tc_chat.chats.models import ChatGroup
 from tc_chat.users.models import User
 
 
@@ -48,7 +48,7 @@ def create_always_living_groups():
     for name in group_names:
         # Fetch a random user as the creator; for simplicity using the first user
         creator = users["alice"]  # Example to set 'alice' as creator of all groups
-        group, created = Group.objects.get_or_create(
+        group, created = ChatGroup.objects.get_or_create(
             name=name, defaults={"is_dev_created": True, "creator": creator}
         )
         if created:
