@@ -7,7 +7,6 @@ from django.db.models import ManyToManyField
 from django.db.models import Model
 
 from tc_chat.custom_excpetions.chat_groups import CantDeleteDevGroupError
-from tc_chat.custom_excpetions.chat_groups import GroupExcludesCreatorInMembersError
 
 
 class ChatGroup(Model):
@@ -15,8 +14,9 @@ class ChatGroup(Model):
     is_dev_created = BooleanField(
         help_text="Indicates if the group was created by developers", default=False
     )
-    # Change the related_name to something unique, e.g., 'group_members'
     members = ManyToManyField(get_user_model(), related_name="chat_groups", blank=True)
+    # Creator is nullable only for developer chats.
+    # It never should be nullable in other cases
     creator = ForeignKey(get_user_model(), on_delete=CASCADE, null=True, blank=False)
 
     def __str__(self):

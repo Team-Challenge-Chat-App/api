@@ -17,8 +17,17 @@ class GroupExcludesCreatorInMembersError(Exception):
         self.message = (
             message
             if message
-            else "Can't create Group without creator included in members, when exists"
+            else "Can't create Group without creator included in members"
         )
+        self.errors = errors if not errors else []
+        super().__init__(
+            self.message + (f"Caused by: {self.errors}" if self.errors else "")
+        )
+
+
+class GroupDoesntHaveCreatorError(Exception):
+    def __init__(self, message=None, errors=None):
+        self.message = message if message else "Can't create Group without creator"
         self.errors = errors if not errors else []
         super().__init__(
             self.message + (f"Caused by: {self.errors}" if self.errors else "")

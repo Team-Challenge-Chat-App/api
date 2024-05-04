@@ -2,6 +2,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from tc_chat.chats.models import ChatGroup
+from tc_chat.custom_excpetions.chat_groups import GroupDoesntHaveCreatorError
 from tc_chat.custom_excpetions.chat_groups import GroupExcludesCreatorInMembersError
 
 
@@ -27,9 +28,11 @@ class ChatGroupSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         creator = validated_data.get("creator")
         members = validated_data.get("members")
-        if creator and creator not in members:
+        if not creator:
+            raise GroupDoesntHaveCreatorError
+        if creator not in members:
             raise GroupExcludesCreatorInMembersError(
-                "Can't exclude creator from group members"
+                message="Can't exclude creator from group members"
             )
         instance.name = validated_data.get("name")
         instance.members.set(members)
@@ -40,3 +43,4 @@ class ChatGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatGroup
         exclude = ["is_dev_created"]
+        extra_kwargs = {"creator": {"required": True, "allow_null": False}}
