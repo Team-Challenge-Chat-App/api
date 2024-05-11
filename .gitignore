@@ -428,6 +428,6 @@ tc_chat/media/
 .envs/.local/.aws
 
 # Ignore all migrations in tc_chat, except __init__.py
-tc_chat/*/migrations/
+tc_chat/*/migrations/*
 !tc_chat/*/migrations/__init__.py
 poetry.lock
